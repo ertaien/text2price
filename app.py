@@ -8,11 +8,14 @@ def parser_amount(text):
     res = re.search("([0-9]+тг|[0-9]+теңге|[0-9]+тенге)", text)
 
     if res is not None:
-        res = re.findall("[0-9]+", res.group())[0]
+        res = re.findall("[0-9]+", res.group())
     else:
-        res = re.search("[0-9]+", text)[0]
+        res = re.search("[0-9]+", text)
 
-    return int(res)
+    if res is None:
+        return None
+
+    return int(res[0])
 
 
 class TextAmountParser(unittest.TestCase):
@@ -43,6 +46,9 @@ class TextAmountParser(unittest.TestCase):
 
     def test_amount_without_tg(self):
         self.assertEqual(parser_amount("Жылқы сатылады. 300 000 ға берем."), 300000)
+
+    def test_amount_none(self):
+        self.assertIsNone(parser_amount("Жылқы сатылады. ға берем."))
 
 
 if __name__ == "__main__":
