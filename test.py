@@ -37,6 +37,19 @@ class TextAmountParser(unittest.TestCase):
         self.assertIsNone(parser_amount("Жылқы сатылады. ға берем."))
         self.assertIsNone(parser_amount("Жылқы сатылады. 300 000 ға берем."))
 
+    def test_amount_mln(self):
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 1 млн ға берем тг."), 1000000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 99 миллионға ға берем тг."), 99000000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 25 миллионға ға берем тг."), 25000000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 350 миллионға ға берем тг."), 350000000)
+
+    def test_amount_tis(self):
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 30 мың ға берем"), 30000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 99 мың ға берем"), 99000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 25 мын ға берем"), 25000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 25 тыс ға берем"), 25000)
+        self.assertEqual(parser_amount("Комбинезон және шапка, куртка - 25 мыңға ға берем"), 25000)
+
 
 if __name__ == "__main__":
     unittest.main()
