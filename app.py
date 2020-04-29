@@ -2,6 +2,7 @@ import re
 
 
 def parser_amount(text):
+
     text = re.sub('[\s+]', '', re.sub(r'[^\w]', ' ', text.lower()))
     result = re.search("[0-9]+(тг|тенге|теңге|тнг|tg|млн|тыс|миллион|мың|мын)", text)
 
